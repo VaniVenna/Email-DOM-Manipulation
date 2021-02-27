@@ -1,0 +1,247 @@
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        var mail = [{
+            "inbox": [
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample inbox1 content. Awesome accuracy. Exceptional distance. High performance blasters for epic blaster battles. This is Nerf Elite."
+                    }
+                },              
+                {
+                    "mailBox": {
+                        "from": "vennavani66@gmail.com",
+                        "to": "vennavani56@gmail.com",
+                        "content": "This is a sample inbox2 content. Awesome accuracy. Exceptional distance. High performance blasters for epic blaster battles. This is Nerf Elite."
+                    }
+                },               
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample inbox3 content. Awesome accuracy. Exceptional distance. High performance blasters for epic blaster battles. This is Nerf Elite."
+                    }
+                },              
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample inbox4 content. Awesome accuracy. Exceptional distance. High performance blasters for epic blaster battles. This is Nerf Elite."
+                    }
+                },                
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample inbox5 content. Awesome accuracy. Exceptional distance. High performance blasters for epic blaster battles. This is Nerf Elite."
+                    }
+                }
+            ],
+            "sent": [
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample sent1 content. Buy, sell, dream and scheme your way to riches! Make Monopoly your go-to-game for family game night."
+                    }
+                },
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample sent2 content. Buy, sell, dream and scheme your way to riches! Make Monopoly your go-to-game for family game night."
+                    }
+                }
+            ],
+            "draft": [
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample draft1 content. Spark your creativity and shape your own stories with Play-Doh modeling compound."
+                    }
+                },
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample draft2 content. Spark your creativity and shape your own stories with Play-Doh modeling compound."
+                    }
+                },
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample draft3 content. Spark your creativity and shape your own stories with Play-Doh modeling compound."
+                    }
+                }
+            ],
+            "spam": [
+                {
+                    "mailBox": {
+                        "from": "vennavani56@gmail.com",
+                        "to": "vennavani66@gmail.com",
+                        "content": "This is a sample spam content. SHAPE YOUR IMAGINATION!"
+                    }
+                }
+            ]
+        }];
+
+        var leftBar = document.createElement("section");
+
+        var ul = document.createElement("ul");
+
+        var commonDiv = document.createElement("div")
+        commonDiv.className = "control-container";
+
+        var commonCheck = document.createElement("input");
+        commonCheck.type = "checkbox";
+        commonCheck.className = "checkCommon";
+
+        var deleteIconCommon = document.createElement("button");
+        deleteIconCommon.textContent = "delete";
+        deleteIconCommon.className = "delete";
+        deleteIconCommon.disabled = true;
+        
+        var rightBar = document.createElement("table");
+        rightBar.id = "rightBar";
+
+        var parent = document.createElement("tbody");
+        parent.className = "mail";
+
+        document.body.appendChild(leftBar);
+        leftBar.appendChild(ul);
+        leftBar.appendChild(commonDiv);
+        leftBar.appendChild(rightBar);
+        commonDiv.appendChild(commonCheck);
+        commonDiv.appendChild(deleteIconCommon);
+        rightBar.appendChild(parent);
+
+        var content = document.createElement("div");
+        content.className = "content";
+        document.body.appendChild(content);
+
+        for (const iterator of mail) {
+            for (const key in iterator) {
+                // console.log(iterator[key]);
+                menuItem(key, iterator[key]);
+                if (key === "inbox") {
+                    initialLoad(iterator[key]);
+                }
+            }
+        }
+
+        function menuItem(listItems, mailContent) {
+            var list = document.createElement("li");
+            list.className = listItems;
+            list.textContent = listItems;
+            ul.appendChild(list);
+            list.onclick = (e) => {
+                content.innerHTML = "";
+                var removeChild = document.getElementById("rightBar");
+                // console.dir(removeChild.innerHTML);
+                if (removeChild.childNodes.length > 0)
+                    removeChild.innerHTML = "";
+                    
+                for (const iterator in mailContent) {
+                    display(mailContent[iterator]);
+                }
+            }
+        }
+
+        function initialLoad(obj) {
+            for (const ind of obj) {
+                display(ind);
+            }
+        }
+
+        function display(mailBox) {
+            for (const key in mailBox) {
+                var actParent = document.createElement("tr");
+                // console.log(key);
+                actParent.className = key;
+                parent.appendChild(actParent);
+                
+                /* checkbox creation */
+                var check = document.createElement("input");
+                check.type = "checkbox";
+                check.className = "check";
+
+                var deleteIcon = document.createElement("button");
+                deleteIcon.textContent = "delete";
+                deleteIcon.className = "delete";
+                deleteIcon.disabled = true;
+
+                for (const iterator in mailBox[key]) {
+                    // console.log(iterator);
+                    if (iterator != "content") {
+                        actParent.prepend(check);
+                        var right = document.createElement("td");
+                        right.className = iterator;
+                        right.textContent = mailBox[key][iterator];
+                        actParent.appendChild(right);
+                        actParent.appendChild(deleteIcon);
+                    }
+                    else {
+                        actParent.setAttribute("data-content", mailBox[key][iterator]);
+                    }
+                }
+                actParent.onclick = (e) => {
+                    content.innerHTML = e.currentTarget.getAttribute("data-content");
+                };
+                check.onclick = (e) => {
+                    e.stopPropagation();
+                    if (deleteIcon.disabled === true) {
+                        deleteIcon.disabled = false;
+                        deleteIconCommon.disabled = false;
+                    }
+                    else {
+                        deleteIcon.disabled = true;
+                        deleteIconCommon.disabled = true;
+                    }
+                }
+                deleteIcon.onclick = (e) => {
+                    e.stopPropagation();
+                    console.dir(e.target);
+                    e.target.parentNode.remove(e.target.parentNode);
+                    content.innerHTML = "";
+                }
+                // console.dir(key + " " + aryObj[key]);
+            }
+        }
+
+        deleteIconCommon.onclick = (e) => {
+            var del = Array.from(document.getElementsByClassName("check"));
+            console.dir(del);
+            // for (const iterator of del) {
+            //     // console.dir(iterator.checked);
+            //     if (iterator.checked === true)
+            //         iterator.parentNode.remove(iterator.parentNode);
+            // }
+            del.forEach(element => {
+                if (element.checked === true)
+                    element.parentNode.remove();
+            });
+        }
+        commonCheck.onchange = (e) => {
+            var del = document.getElementsByClassName("check");
+            var isCheckboxChecked = e.target.checked;
+
+            if (isCheckboxChecked === true) {
+                for (const iterator of del) {
+                    iterator.checked = true;
+                    deleteIconCommon.disabled = false;
+                }
+            }
+            else {
+                for (const iterator of del) {
+                    iterator.checked = false;
+                    deleteIconCommon.disabled = true;
+                }
+            }
+        }
+    </script>
+</html>
